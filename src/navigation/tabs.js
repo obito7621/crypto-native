@@ -5,7 +5,7 @@ import {
   BottomTabBar,
 } from '@react-navigation/bottom-tabs';
 
-import {HomeScreen} from '../screens';
+import {HomeScreen, ExchangesScreen} from '../screens';
 import {COLORS, FONTS, icons} from '../constants';
 import LinearGradient from 'react-native-linear-gradient';
 
@@ -141,7 +141,7 @@ const Tabs = () => {
       />
       <Tab.Screen
         name="Exchanges"
-        component={HomeScreen}
+        component={ExchangesScreen}
         options={{
           tabBarIcon: ({focused}) => (
             <View style={{alignItems: 'center', justifyContent: 'center'}}>

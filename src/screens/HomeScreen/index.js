@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,8 +8,15 @@ import {
   TouchableOpacity,
   Image,
   ImageBackground,
+  LogBox,
 } from 'react-native';
-import TrendingList from '../../components/TrendingList';
+
+import {
+  PriceAlert,
+  TrendingList,
+  TransactionHistory,
+  ActivityIndicator,
+} from '../../components';
 
 import {dummyData, COLORS, SIZES, FONTS, icons, images} from '../../constants';
 
@@ -17,19 +24,21 @@ import {useGetCryptosQuery} from '../../services/cryptoApi';
 
 const HomeScreen = ({navigation}) => {
   const {data: cryptoList, isFetching} = useGetCryptosQuery(5);
-  const [cryptos, setCryptos] = useState(cryptoList.data.coins);
+  const cryptos = cryptoList?.data?.coins;
+  const [transactionhistory, setTransactionhistory] = useState(
+    dummyData.transactionHistory,
+  );
   // console.log('====================================');
   // console.log(cryptos);
   // console.log('====================================');
 
-  // const [trending, setTrending] = React.useState(data);
-  // console.log('====================================');
-  // console.log(trending);
-  // console.log('====================================');
+  useEffect(() => {
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+  }, []);
 
   function renderHeader() {
     return (
-      <View style={{width: '100%', height: 290, ...styles.shadow}}>
+      <View style={{width: '100%', height: 270, ...styles.shadow}}>
         <ImageBackground
           source={images.banner}
           resizeMode="cover"
@@ -59,14 +68,13 @@ const HomeScreen = ({navigation}) => {
           </View>
 
           {/* Balance */}
-
           <View style={{alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{color: COLORS.white, ...FONTS.h3}}>
               Your Portfolio Balance
             </Text>
             <Text
               style={{marginTop: SIZES.base, color: COLORS.white, ...FONTS.h1}}>
-              $148569
+              $14,856.49
             </Text>
             <Text style={{color: COLORS.white, ...FONTS.body5}}>
               +24.03% Last 24 hours
@@ -76,7 +84,7 @@ const HomeScreen = ({navigation}) => {
           {/* Trending */}
           <View
             style={{
-              // position: '',
+              position: 'absolute',
               bottom: '-30%',
             }}>
             <Text
@@ -90,7 +98,9 @@ const HomeScreen = ({navigation}) => {
             <FlatList
               contentContainerStyle={{marginTop: SIZES.base}}
               data={cryptos}
-              renderItem={({item}) => <TrendingList item={item} />}
+              renderItem={({item, index}) => (
+                <TrendingList item={item} index={index} />
+              )}
               keyExtractor={item => `${item.id}`}
               horizontal
               showsHorizontalScrollIndicator={false}
@@ -101,10 +111,69 @@ const HomeScreen = ({navigation}) => {
     );
   }
 
+  function renderAlert() {
+    return <PriceAlert />;
+  }
+
+  function renderNotice() {
+    return (
+      <View
+        style={{
+          marginTop: SIZES.padding,
+          marginHorizontal: SIZES.padding,
+          padding: 20,
+          borderRadius: SIZES.radius,
+          backgroundColor: COLORS.secondary,
+          ...styles.shadow,
+        }}>
+        <Text style={{color: COLORS.white, ...FONTS.h3}}>Investing Safety</Text>
+        <Text
+          style={{
+            marginTop: SIZES.base,
+            color: COLORS.white,
+            ...FONTS.body4,
+            lineHeight: 18,
+          }}>
+          It's very difficult to time an investment, especially when the market
+          is volatile. Learn how to use dollar cost averaging to your advantage.
+        </Text>
+        <TouchableOpacity
+          style={{marginTop: SIZES.base}}
+          onPress={() => console.log('Learn more')}>
+          <Text
+            style={{
+              textDecorationLine: 'underline',
+              color: COLORS.green,
+              ...FONTS.h3,
+            }}>
+            Learn more
+          </Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  function renderTransactionHistory() {
+    return (
+      <TransactionHistory
+        customContainerStyle={{...styles.shadow}}
+        history={transactionhistory}
+      />
+    );
+  }
+
   return (
-    <ScrollView>
-      <View style={{flex: 1, paddingBottom: 130}}>{renderHeader()}</View>
-    </ScrollView>
+    <>
+      <ActivityIndicator visible={isFetching} />
+      <ScrollView>
+        <View style={{flex: 1, paddingBottom: 130}}>
+          {renderHeader()}
+          {renderAlert()}
+          {renderNotice()}
+          {renderTransactionHistory()}
+        </View>
+      </ScrollView>
+    </>
   );
 };
 

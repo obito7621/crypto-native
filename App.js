@@ -1,44 +1,34 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {Route, Switch, NavLink, Link} from 'react-router-dom';
+import {StatusBar} from 'react-native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {NavigationContainer} from '@react-navigation/native';
 
 import Tabs from './src/navigation/tabs';
 
-import {Provider} from 'react-redux';
-import store from './src/app/store';
-
-import {CryptoScreen, ExchangesScreen, NewsScreen} from './src/screens';
+import {CryptoDetailsScreen, ExchangesScreen, NewsScreen} from './src/screens';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Provider store={store}>
+    <>
+      <StatusBar translucent={false} />
+      <NavigationContainer>
         <Stack.Navigator
           screenOptions={{
             headerShown: false,
           }}
           initialRouteName={'Home'}>
           <Stack.Screen name="Home" component={Tabs} />
-          <Stack.Screen name="CryptoDetail" component={CryptoScreen} />
-          <Stack.Screen name="Exchanges" component={ExchangesScreen} />
+          <Stack.Screen
+            name="CryptoDetailsScreen"
+            component={CryptoDetailsScreen}
+          />
+          <Stack.Screen name="ExchangesScreen" component={ExchangesScreen} />
         </Stack.Navigator>
-      </Provider>
-    </NavigationContainer>
+      </NavigationContainer>
+    </>
   );
 };
-
-const styles = StyleSheet.create({});
 
 export default App;
