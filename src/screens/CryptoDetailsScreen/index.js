@@ -320,7 +320,7 @@ const CryptoDetailsScreen = ({route, navigation}) => {
         flex: 1,
         backgroundColor: COLORS.lightGray1,
       }}>
-      <HeaderBar right={true} />
+      <HeaderBar right={true} left={true} />
       <ScrollView>
         <View style={{flex: 1, paddingBottom: SIZES.padding}}>
           {renderChart()}

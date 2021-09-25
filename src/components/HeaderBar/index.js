@@ -15,22 +15,41 @@ import {COLORS, SIZES, FONTS, icons, images} from '../../constants';
 
 import {useNavigation} from '@react-navigation/native';
 
-const HeaderBar = ({right}) => {
+const HeaderBar = ({left, right, center}) => {
   const navigation = useNavigation();
 
   return (
-    <View style={{paddingHorizontal: SIZES.padding, flexDirection: 'row'}}>
+    <View
+      style={{
+        paddingHorizontal: SIZES.padding,
+        flexDirection: 'row',
+        backgroundColor: COLORS.primary,
+        height: 70,
+        alignItems: 'center',
+      }}>
       <View style={{flex: 1, alignItems: 'flex-start'}}>
-        <TouchableOpacity
-          style={{flexDirection: 'row', alignItems: 'center'}}
-          onPress={() => navigation.goBack()}>
-          <Image
-            source={icons.back_arrow}
-            resizeMode="contain"
-            style={{width: 18, height: 18, tintColor: COLORS.gray}}
-          />
-          <Text style={{marginLeft: SIZES.base, ...FONTS.h4}}>Back</Text>
-        </TouchableOpacity>
+        {center && (
+          <Text style={{color: COLORS.white, ...FONTS.h1}}>{center}</Text>
+        )}
+        {left && (
+          <TouchableOpacity
+            style={{flexDirection: 'row', alignItems: 'center'}}
+            onPress={() => navigation.goBack()}>
+            <Image
+              source={icons.back_arrow}
+              resizeMode="contain"
+              style={{width: 18, height: 18, tintColor: COLORS.white}}
+            />
+            <Text
+              style={{
+                marginLeft: SIZES.base,
+                color: COLORS.white,
+                ...FONTS.h3,
+              }}>
+              Back
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       {right && (

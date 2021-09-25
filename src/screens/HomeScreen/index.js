@@ -22,15 +22,12 @@ import {dummyData, COLORS, SIZES, FONTS, icons, images} from '../../constants';
 
 import {useGetCryptosQuery} from '../../services/cryptoApi';
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = () => {
   const {data: cryptoList, isFetching} = useGetCryptosQuery(5);
   const cryptos = cryptoList?.data?.coins;
   const [transactionhistory, setTransactionhistory] = useState(
     dummyData.transactionHistory,
   );
-  // console.log('====================================');
-  // console.log(cryptos);
-  // console.log('====================================');
 
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -99,7 +96,12 @@ const HomeScreen = ({navigation}) => {
               contentContainerStyle={{marginTop: SIZES.base}}
               data={cryptos}
               renderItem={({item, index}) => (
-                <TrendingList item={item} index={index} />
+                <TrendingList
+                  item={item}
+                  index={index}
+                  backgroundColor={`${item?.color}e4`}
+                  styles={{marginLeft: index == 0 ? SIZES.padding : 0}}
+                />
               )}
               keyExtractor={item => `${item.id}`}
               horizontal

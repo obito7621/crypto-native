@@ -6,27 +6,30 @@ import {NavigationContainer} from '@react-navigation/native';
 import Tabs from './src/navigation/tabs';
 
 import {CryptoDetailsScreen, ExchangesScreen, NewsScreen} from './src/screens';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <>
-      <StatusBar translucent={false} />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}
-          initialRouteName={'Home'}>
-          <Stack.Screen name="Home" component={Tabs} />
-          <Stack.Screen
-            name="CryptoDetailsScreen"
-            component={CryptoDetailsScreen}
-          />
-          <Stack.Screen name="ExchangesScreen" component={ExchangesScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <SafeAreaProvider>
+        <StatusBar translucent={false} />
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}
+            initialRouteName={'Home'}>
+            <Stack.Screen name="HomeStack" component={Tabs} />
+            <Stack.Screen
+              name="CryptoDetailsScreen"
+              component={CryptoDetailsScreen}
+            />
+            <Stack.Screen name="ExchangesScreen" component={ExchangesScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaProvider>
     </>
   );
 };

@@ -1,23 +1,11 @@
 import React from 'react';
-import {SvgUri} from 'react-native-svg';
+// import {SvgUri} from 'react-native-svg';
 import millify from 'millify';
-import {
-  StyleSheet,
-  View,
-  Text,
-  ScrollView,
-  FlatList,
-  TouchableOpacity,
-  Image,
-  ImageBackground,
-} from 'react-native';
-import {dummyData, COLORS, SIZES, FONTS, icons, images} from '../../constants';
+import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {COLORS, SIZES, FONTS} from '../../constants';
 import {useNavigation} from '@react-navigation/core';
 
-const TrendingList = ({item, index}) => {
-  // console.log('====================================');
-  // console.log(item);
-  // console.log('====================================');
+const TrendingList = ({item, index, styles, backgroundColor}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
@@ -25,10 +13,10 @@ const TrendingList = ({item, index}) => {
         width: 180,
         paddingVertical: SIZES.padding,
         paddingHorizontal: SIZES.padding,
-        marginLeft: index == 0 ? SIZES.padding : 0,
         marginRight: SIZES.radius,
         borderRadius: 10,
-        backgroundColor: COLORS.white,
+        backgroundColor: backgroundColor,
+        ...styles,
       }}
       onPress={() =>
         navigation.navigate('CryptoDetailsScreen', {currency: item})
